@@ -9,6 +9,7 @@
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
         <link href="public/css/app.css" rel="stylesheet">
+        <link href="public/js/app.js" rel="stylesheet">
 
         <!-- Styles -->
         <style>
