@@ -13,9 +13,13 @@ class PostsController extends Controller
     public function store()
     {
         $data = request()->validate([
+            //'another' => '',  --- would include this if field has no validation rules
             'caption' => 'required',
-            'image' => 'required',
+            'image' => ['required', 'image'],
         ]);
+
+        auth()->user()->posts()->create($data);
+
         dd(request()->all());
     }
 }
