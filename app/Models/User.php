@@ -51,6 +51,17 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($user) { // a closure
+            $user->profile()->create([
+                'title' => $user->username,
+            ]);
+        });
+    }
+
     /**
      * The accessors to append to the model's array form.
      *
