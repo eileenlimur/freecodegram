@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Mail\NewUserWelcomeMail;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,13 +14,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 require __DIR__.'/auth.php';
 
 Auth::routes();
+
+Route::get('/', [App\Http\Controllers\PostsController::class, 'index']);
+
+Route::get('/email', function () {
+  return new NewUserWelcomeMail();
+});
 
 Route::post('follow/{user}', [App\Http\Controllers\FollowsController::class, 'store']);
 
