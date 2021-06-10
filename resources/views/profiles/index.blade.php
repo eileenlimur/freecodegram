@@ -15,6 +15,14 @@
         </div>
         <div class="col-9 pt-5">
             <div class="d-flex justify-content-between align-items-baseline">
+                <div class="d-flex align-items-center pb-4">
+                    <div class="h4">{{ $user->username }}</div>
+                    @if(json_encode($follows) == 'true' )
+                    <button id="follow-btn" class="btn ml-4 btn-secondary">Unfollow</button>
+                    @else
+                    <button id="follow-btn" class="btn ml-4 btn-primary">Follow</button>
+                    @endif
+                </div>
 
                 @can('update', $user->profile)
                     <a href="/p/create">Add New Post</a>
@@ -45,4 +53,36 @@
         @endforeach
     </div>
 </div>
+@endsection
+
+@section('script')
+<script>
+    $(document).ready(function(){
+
+        $('#follow-btn').click(function(){
+            followUser(<?= $user->id ?>);
+        })
+    
+        function followUser(userId){
+            axios.post('/follow/' + userId)
+            .then(response=>{
+                //if user is now following the profile
+                if (response.data.attached.length) {
+                    $('#follow-btn').removeClass('btn-primary');
+                    $('#follow-btn').addClass('btn-secondary');
+                    $('#follow-btn').text('Unfollow');
+                } else {
+                    $('#follow-btn').addClass('btn-primary');
+                    $('#follow-btn').removeClass('btn-secondary');
+                    $('#follow-btn').text('Follow');
+                }
+            })
+            .catch(error=>{
+                if (error.response.status == 401) {
+                    window.location = '/login'
+                }
+            });
+        }
+    })
+</script>
 @endsection
